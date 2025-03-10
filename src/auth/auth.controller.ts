@@ -2,12 +2,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Throttle } from '@nestjs/throttler';
-import twilio from 'twilio';
-
-const twilioClient = twilio('ACc5a17d0f28b2892e71f1c1cc8219665a','34b4090d2493dfc90f0297c86f8a55ab');
-const TWILIO_SERVICE_SID = '';
-//sid = 'SKa0ece144300547cf4399e2ed1921c846';
-//api secret = 'jKizLgaHwSKdsRVUJ1LBlUIpx0wDRUmb';
 
 @Controller('auth')
 export class AuthController {
@@ -36,10 +30,5 @@ export class AuthController {
 
   @Post('sendCode')
   async sendCode(@Body('phoneNumber') phoneNumber: string) {
-    try{
-      await twilioClient
-    }catch(error){
-
-    }
   }
 }
