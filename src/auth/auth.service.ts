@@ -27,14 +27,14 @@ export class AuthService {
     });
     return user;
   }
-  async login(email: string, password: string) {
+  async login(phoneNumber: string, password: string) {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: { phoneNumber },
     });
     if (!user) throw new Error('User not found');
     const isMatch = user.password == password;
     if (!isMatch) throw new Error('Invalid password');
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.phoneNumber, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
     return accessToken;
   }
