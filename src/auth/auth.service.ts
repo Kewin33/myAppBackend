@@ -36,6 +36,6 @@ export class AuthService {
     if (!isMatch) throw new Error('Invalid password');
     const payload = { email: user.phoneNumber, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
-    return accessToken;
+    return { statusCode: 200, body: accessToken };
   }
 }
