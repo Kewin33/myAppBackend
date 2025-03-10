@@ -22,9 +22,13 @@ export class AuthController {
   @Post('login')
   @Throttle({default:{limit: 5, ttl: 60}}) // 5A/60s
   async login(
-    @Body('email') email: string,
+    @Body('phoneNumber') phoneNumber: string,
     @Body('password') password: string
   ){
-    return this.authService.login(email, password);
+    return this.authService.login(phoneNumber, password);
+  }
+
+  @Post('sendCode')
+  async sendCode(@Body('phoneNumber') phoneNumber: string) {
   }
 }
