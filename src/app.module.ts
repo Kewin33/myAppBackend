@@ -7,6 +7,7 @@ import { PrismaService } from './prisma/prisma.service';
 
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
+import { ChessMapModule } from './chess-map/chess-map.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
       ],
     }),
     AuthModule,
+    ChessMapModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService, PrismaService],

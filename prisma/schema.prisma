@@ -14,11 +14,13 @@ datasource db {
 }
 
 model User {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   email       String
-  phoneNumber String @unique
+  phoneNumber String    @unique
   password    String
   firstName   String
   lastName    String
-  streak      Int    @default(0)
+  streak      Int       @default(0)
+  location    String?    // als JSON string gespeichert mit longitude und latitude
+  date        DateTime?    
 }
