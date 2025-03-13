@@ -15,6 +15,7 @@ import { AuthGuard } from '../guard/auth.guard';
       useClass: AuthGuard, // Guard nur für dieses Modul
     },
   ],
+  exports: [ChessMapService],
 })
 
 export class ChessMapModule {}
