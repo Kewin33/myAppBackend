@@ -14,13 +14,32 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String
-  phoneNumber String    @unique
+  id          Int    @id @default(autoincrement())
+  phoneNumber String @unique
   password    String
   firstName   String
   lastName    String
+
+  chessMap ChessMap?
+  home     Home?
+}
+
+model ChessMap {
+  phoneNumber    String    @id
+  location       String? // JSON-String mit longitude & latitude
+  date           DateTime?
+  allowedUserIds Int[]     @default([]) //first element = -1 ->all numbers allowed
+
+  user User @relation(fields: [phoneNumber], references: [phoneNumber])
+}
+
+model Home {
+  phoneNumber String    @id
   streak      Int       @default(0)
-  location    String?    // als JSON string gespeichert mit longitude und latitude
-  date        DateTime?    
+  streakDate  DateTime?
+  coins       Int       @default(0)
+  diamonds    Int       @default(0)
+  rating      Int       @default(1500)
+
+  user User @relation(fields: [phoneNumber], references: [phoneNumber])
 }
