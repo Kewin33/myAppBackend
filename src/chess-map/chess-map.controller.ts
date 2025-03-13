@@ -14,9 +14,8 @@ export class ChessMapController {
   }
 
   @Post('getFriendsLocation')
-  async getFriendsLocation(
-    @Body('phoneNumber') phoneNumber: string[],
-  ){
+  async getFriendsLocation(@Body('phoneNumber') phoneNumber: string[]) {
+    //return "Hi dude"
     return this.chessMapService.getFriendsLocation(phoneNumber);
   }
 }

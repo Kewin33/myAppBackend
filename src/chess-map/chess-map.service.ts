@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -19,7 +20,7 @@ export class ChessMapService {
     }
 
     // Update user with location and date
-    return await this.prisma.user.update({
+    return this.prisma.chessMap.update({
       where: { phoneNumber },
       data: {
         location,  // Set the new location
@@ -29,19 +30,20 @@ export class ChessMapService {
   }
 
   async getFriendsLocation(phoneNumbers: string[]) {
-    const result = await this.prisma.user.findMany({
+    return this.prisma.chessMap.findMany({
       where: {
-        phoneNumber: {
-          in: phoneNumbers, // "in" erwartet ein Array als Wert
-        },
+        phoneNumber: { in: phoneNumbers },
       },
       select: {
-        firstName: true,
-        lastName: true,
         location: true,
         date: true,
+        user: { // User-Relation mit den benötigten Feldern laden
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
-    return result;
   }
 }

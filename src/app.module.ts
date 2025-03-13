@@ -8,6 +8,15 @@ import { PrismaService } from './prisma/prisma.service';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { ChessMapModule } from './chess-map/chess-map.module';
+import { ChessTokService } from './chess-tok/chess-tok.service';
+import { ChessTokController } from './chess-tok/chess-tok.controller';
+import { ChessTokModule } from './chess-tok/chess-tok.module';
+import { HomeController } from './home/home.controller';
+import { HomeService } from './home/home.service';
+import { HomeModule } from './home/home.module';
+import { AuthGuard } from './guard/auth.guard';
+import { ChessMapService } from './chess-map/chess-map.service';
+import { ChessMapController } from './chess-map/chess-map.controller';
 
 @Module({
   imports: [
@@ -21,8 +30,28 @@ import { ChessMapModule } from './chess-map/chess-map.module';
     }),
     AuthModule,
     ChessMapModule,
+    ChessTokModule,
+    HomeModule,
+    ChessMapModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService, PrismaService],
+  controllers: [
+    AppController,
+    AuthController,
+    ChessTokController,
+    HomeController,
+    ChessMapController,
+  ],
+  providers: [
+    AppService,
+    AuthService,
+    PrismaService,
+    ChessTokService,
+    HomeService,
+    AuthGuard,
+    ChessMapService,
+  ],
+  exports: [
+    AuthGuard
+  ]
 })
 export class AppModule {}
