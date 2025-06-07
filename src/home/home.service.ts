@@ -20,4 +20,38 @@ export class HomeService {
     }
     return null;
   }
+
+  async getRandomPuzzle(minRating: number, maxRating: number, theme?: string) {
+  // Basis-Filter
+  const whereClause: any = {
+    rating: {
+      gte: minRating,
+      lte: maxRating,
+    },
+  };
+
+  // Wenn Theme gesetzt, filtere auch danach (einfach LIKE Suche in themes)
+  if (theme) {
+    whereClause.themes = {
+      contains: theme,
+      mode: 'insensitive',
+    };
+  }
+
+  const count = await this.prisma.puzzle.count({ where: whereClause });
+
+  if (count === 0) return null;
+
+  const randomOffset = Math.floor(Math.random() * count);
+
+  const randomPuzzle = await this.prisma.puzzle.findMany({
+    where: whereClause,
+    skip: randomOffset,
+    take: 1,
+  });
+
+  return randomPuzzle[0];
+}
+
+
 }
