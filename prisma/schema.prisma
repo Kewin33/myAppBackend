@@ -7,49 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          Int      @id @default(autoincrement())
-  phoneNumber String   @unique
-  password    String
-  firstName   String
-  lastName    String
-
-  chessMap ChessMap?
-  home     Home?
-}
-
-model ChessMap {
-  phoneNumber    String    @id
-  location       String?   // JSON-String mit longitude & latitude
-  date           DateTime?
-  allowedUserIds Int[]     @default([]) //first element = -1 ->all numbers allowed
-
-  user User @relation(fields: [phoneNumber], references: [phoneNumber])
-}
-
-model Home {
-  phoneNumber String    @id
-  streak      Int       @default(0)
-  streakDate  DateTime?
-  coins       Int       @default(0)
-  diamonds    Int       @default(0)
-  rating      Int       @default(1500)
-
-  user User @relation(fields: [phoneNumber], references: [phoneNumber])
-}
-
-// NEU: Puzzle Model passend zum CSV-Format
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model Puzzle {
-  puzzleId         String  @id @map("puzzle_id")
-  fen              String
-  moves            String
-  rating           Int
-  ratingDeviation  Int     @map("rating_deviation")
-  popularity       Int
-  nbPlays          Int     @map("nb_plays")
-  themes           String
-  gameUrl          String  @map("game_url")
-  openingTags      String? @map("opening_tags")
-  
+  puzzleId        String @id @map("puzzle_id")
+  fen             String?
+  moves           String?
+  rating          Int?
+  ratingDeviation Int?    @map("rating_deviation")
+  popularity      Int?
+  nbPlays         Int?    @map("nb_plays")
+  themes          String?
+  gameUrl         String? @map("game_url")
+  openingTags     String? @map("opening_tags")
+
   @@map("puzzles")
 }
