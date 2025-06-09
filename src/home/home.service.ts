@@ -32,12 +32,41 @@ export class HomeService {
 
   // Wenn Theme gesetzt, filtere auch danach (einfach LIKE Suche in themes)
   if (theme) {
-    whereClause.themes = {
-      contains: theme,
-      mode: 'insensitive',
-    };
+  const includeThemes = theme
+    .split(' ')
+    .filter(t => !t.startsWith('!')); // z.B. ['rookEndgame', 'mateIn1']
+  const excludeThemes = theme
+    .split(' ')
+    .filter(t => t.startsWith('!'))
+    .map(t => t.slice(1)); // z.B. ['backRankMate']
+
+  whereClause.AND = [];
+
+  // Include-Themes
+  for (const t of includeThemes) {
+    whereClause.AND.push({
+      themes: {
+        contains: t,
+        mode: 'insensitive',
+      },
+    });
   }
 
+  // Exclude-Themes
+  for (const t of excludeThemes) {
+    whereClause.AND.push({
+      NOT: {
+        themes: {
+          contains: t,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+}
+
+
+//find random puzzle
   const count = await this.prisma.puzzle.count({ where: whereClause });
 
   if (count === 0) return null;
